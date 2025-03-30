@@ -70,7 +70,7 @@ const Index = () => {
   return (
     <MusicProvider>
       <div className="flex h-screen bg-black text-white">
-        <Sidebar />
+        <Sidebar activePage="home" />
         <main className="flex-1 flex flex-col h-screen">
           <MainContent />
           <MusicPlayer />

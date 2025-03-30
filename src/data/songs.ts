@@ -16,7 +16,7 @@ export const songs: Song[] = [
     artist: "Neon Wave",
     album: "Retrograde",
     cover: "https://images.unsplash.com/photo-1507246207829-732ed643ea0a?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/121733__boss-music__pulsing-synth-loop.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3",
     duration: 182,
   },
   {
@@ -25,7 +25,7 @@ export const songs: Song[] = [
     artist: "Luna Skye",
     album: "Moonlit",
     cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/450964__tigersound__dark-cinematic-piano-loop.mp3",
+    audio: "https://assets.codepen.io/296057/fem-unlock-your-heart.mp3",
     duration: 224,
   },
   {
@@ -34,7 +34,7 @@ export const songs: Song[] = [
     artist: "Coastal Dreams",
     album: "Seaside",
     cover: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/639328__jose-maigua__mellow-pad-with-bass-loop.wav",
+    audio: "https://assets.codepen.io/296057/fem-ukelele.mp3",
     duration: 198,
   },
   {
@@ -43,7 +43,7 @@ export const songs: Song[] = [
     artist: "City Pulse",
     album: "Metropolis",
     cover: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/353524__frankum__ambient-loop-022.mp3",
+    audio: "https://assets.codepen.io/296057/fem-upbeat.mp3",
     duration: 176,
   },
   {
@@ -52,7 +52,7 @@ export const songs: Song[] = [
     artist: "Cosmic Dreams",
     album: "Celestial",
     cover: "https://images.unsplash.com/photo-1470813740244-df37b8c1edcb?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/587213__frankum__ambient-guitar-x1-loop-mode.mp3",
+    audio: "https://assets.codepen.io/296057/fem-getaway.mp3",
     duration: 245,
   },
   {
@@ -61,7 +61,7 @@ export const songs: Song[] = [
     artist: "Serenity",
     album: "Tranquility",
     cover: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/321265__frankum__ambient-guitar-loop-1.mp3",
+    audio: "https://assets.codepen.io/296057/fem-emotional-trap.mp3",
     duration: 193,
   },
   {
@@ -70,7 +70,7 @@ export const songs: Song[] = [
     artist: "Nomad",
     album: "Oasis",
     cover: "https://images.unsplash.com/photo-1570823635306-250abb06d4b3?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/322102__frankum__ambient-guitar-loop-22.mp3",
+    audio: "https://assets.codepen.io/296057/fem-inspiration.mp3",
     duration: 210,
   },
   {
@@ -79,7 +79,7 @@ export const songs: Song[] = [
     artist: "Urban Echoes",
     album: "Downtown",
     cover: "https://images.unsplash.com/photo-1513104487127-813ea879b8da?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/561071__frankum__medium-loop-020.mp3", 
+    audio: "https://assets.codepen.io/296057/fem-everyday.mp3", 
     duration: 189,
   },
   {
@@ -88,7 +88,7 @@ export const songs: Song[] = [
     artist: "Altitude",
     album: "Summit",
     cover: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/635506__frankum__ambient-loop-1.mp3",
+    audio: "https://assets.codepen.io/296057/fem-summer-walk.mp3",
     duration: 229,
   },
   {
@@ -97,7 +97,7 @@ export const songs: Song[] = [
     artist: "Horizon",
     album: "Westbound",
     cover: "https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/531711__frankum__techno-loop-1.mp3",
+    audio: "https://assets.codepen.io/296057/fem-going-higher.mp3",
     duration: 215,
   },
   {
@@ -106,7 +106,7 @@ export const songs: Song[] = [
     artist: "Synthwave",
     album: "Retrowave",
     cover: "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/410232__frankum__freestyle-dance-loop-99-bpm.mp3",
+    audio: "https://assets.codepen.io/296057/fem-groovy-lifestyle.mp3",
     duration: 205,
   },
   {
@@ -115,7 +115,7 @@ export const songs: Song[] = [
     artist: "Nature's Harmony",
     album: "Wilderness",
     cover: "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/lightmetrics-public/507306__frankum__ambient-loop-100-bpm.mp3",
+    audio: "https://assets.codepen.io/296057/fem-happy-day.mp3",
     duration: 240,
   }
 ];
