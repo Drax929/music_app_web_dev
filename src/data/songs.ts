@@ -16,7 +16,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "After Hours",
     cover: "https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/blinding_lights_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 182,
   },
   {
@@ -25,7 +25,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "After Hours",
     cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/save_your_tears_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 224,
   },
   {
@@ -34,7 +34,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "Starboy",
     cover: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/starboy_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 198,
   },
   {
@@ -43,7 +43,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "Beauty Behind the Madness",
     cover: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/the_hills_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 176,
   },
   {
@@ -52,7 +52,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "After Hours",
     cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/heartless_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 245,
   },
   {
@@ -61,7 +61,7 @@ export const songs: Song[] = [
     artist: "The Weeknd ft. Daft Punk",
     album: "Starboy",
     cover: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/i_feel_it_coming_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 193,
   },
   {
@@ -70,7 +70,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "After Hours",
     cover: "https://images.unsplash.com/photo-1570823635306-250abb06d4b3?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/in_your_eyes_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 210,
   },
   {
@@ -79,7 +79,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "My Dear Melancholy",
     cover: "https://images.unsplash.com/photo-1513104487127-813ea879b8da?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/call_out_my_name_preview.mp3", 
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 189,
   },
   {
@@ -88,7 +88,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "Beauty Behind the Madness",
     cover: "https://images.unsplash.com/photo-1454496522488-7a8e488e8606?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/often_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 229,
   },
   {
@@ -97,7 +97,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "Beauty Behind the Madness",
     cover: "https://images.unsplash.com/photo-1502481851512-e9e2529bfbf9?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/earned_it_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 215,
   },
   {
@@ -106,7 +106,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "Starboy",
     cover: "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/die_for_you_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 205,
   },
   {
@@ -115,7 +115,7 @@ export const songs: Song[] = [
     artist: "The Weeknd",
     album: "Beauty Behind the Madness",
     cover: "https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=250&q=80",
-    audio: "https://storage.googleapis.com/file-hosting-examples/cant_feel_my_face_preview.mp3",
+    audio: "https://assets.codepen.io/296057/fem-bombshell.mp3", // Fallback audio
     duration: 240,
   }
 ];

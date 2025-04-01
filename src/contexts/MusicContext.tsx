@@ -30,6 +30,8 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(0.7);
   const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>([]);
+  const [useRealAudio, setUseRealAudio] = useState(true);
+  const intervalRef = useRef<number | null>(null);
 
   // Initialize audio element
   useEffect(() => {
@@ -39,6 +41,7 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     audio.volume = volume;
     
     return () => {
+      if (intervalRef.current) window.clearInterval(intervalRef.current);
       audio.pause();
       audio.src = '';
     };
@@ -68,8 +71,12 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         audio.play()
           .catch(error => {
             console.error("Error playing audio:", error);
-            toast.error("Failed to play audio. Please try again.");
-            setIsPlaying(false);
+            // If real audio fails, switch to mock audio
+            if (useRealAudio) {
+              setUseRealAudio(false);
+              mockAudioPlayback(currentSong);
+            }
+            toast.error("Using simulated audio playback");
           });
       }
     };
@@ -78,8 +85,12 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     audio.addEventListener('ended', handleEnded);
     audio.addEventListener('loadeddata', handleLoadedData);
     audio.addEventListener('error', () => {
-      toast.error("Error loading audio file");
-      setIsPlaying(false);
+      console.log("Audio error detected, switching to mock playback");
+      if (useRealAudio && currentSong) {
+        setUseRealAudio(false);
+        mockAudioPlayback(currentSong);
+      }
+      toast.error("Using simulated audio playback");
     });
 
     return () => {
@@ -88,11 +99,39 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       audio.removeEventListener('loadeddata', handleLoadedData);
       audio.removeEventListener('error', () => {});
     };
-  }, [isPlaying]);
+  }, [isPlaying, currentSong, useRealAudio]);
+
+  const mockAudioPlayback = (song: Song | null) => {
+    if (!song) return;
+    
+    // Clear any existing interval
+    if (intervalRef.current) {
+      window.clearInterval(intervalRef.current);
+    }
+    
+    // Set initial values
+    const songDuration = song.duration || 180; // Default to 3 minutes if no duration
+    setDuration(songDuration);
+    setCurrentTime(0);
+    
+    // Create interval to simulate audio progress
+    if (isPlaying) {
+      const interval = window.setInterval(() => {
+        setCurrentTime(prevTime => {
+          if (prevTime >= songDuration) {
+            window.clearInterval(interval);
+            playNext();
+            return 0;
+          }
+          return prevTime + 1;
+        });
+      }, 1000);
+      
+      intervalRef.current = interval;
+    }
+  };
 
   const playSong = (song: Song) => {
-    if (!audioRef.current) return;
-    
     // Add to recently played
     setRecentlyPlayed(prev => {
       // Remove the song if it already exists
@@ -101,40 +140,65 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       return [song, ...filtered].slice(0, 5);
     });
 
-    // Set current song and play
+    // Set current song
     setCurrentSong(song);
     
-    const audio = audioRef.current;
-    audio.src = song.audio;
-    audio.load();
-    audio.play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch(error => {
-        console.error("Error playing audio:", error);
-        toast.error("Failed to play audio. Please try again.");
-        setIsPlaying(false);
-      });
+    // Clear any existing mock interval
+    if (intervalRef.current) {
+      window.clearInterval(intervalRef.current);
+    }
+    
+    if (useRealAudio) {
+      // Try to play real audio first
+      if (!audioRef.current) return;
+      const audio = audioRef.current;
+      audio.src = song.audio;
+      audio.load();
+      audio.play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(error => {
+          console.error("Error playing audio:", error);
+          setUseRealAudio(false);
+          mockAudioPlayback(song);
+          setIsPlaying(true);
+        });
+    } else {
+      // Use mock audio playback
+      mockAudioPlayback(song);
+      setIsPlaying(true);
+    }
   };
 
   const pauseSong = () => {
-    if (!audioRef.current) return;
-    audioRef.current.pause();
+    if (useRealAudio && audioRef.current) {
+      audioRef.current.pause();
+    } else if (intervalRef.current) {
+      window.clearInterval(intervalRef.current);
+    }
     setIsPlaying(false);
   };
 
   const resumeSong = () => {
-    if (!audioRef.current || !currentSong) return;
+    if (!currentSong) return;
     
-    audioRef.current.play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch(error => {
-        console.error("Error resuming audio:", error);
-        toast.error("Failed to resume audio. Please try again.");
-      });
+    if (useRealAudio) {
+      if (!audioRef.current) return;
+      audioRef.current.play()
+        .then(() => {
+          setIsPlaying(true);
+        })
+        .catch(error => {
+          console.error("Error resuming audio:", error);
+          setUseRealAudio(false);
+          mockAudioPlayback(currentSong);
+          setIsPlaying(true);
+        });
+    } else {
+      mockAudioPlayback(currentSong);
+      setIsPlaying(true);
+    }
   };
 
   const playNext = () => {
@@ -152,11 +216,16 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const setProgress = (value: number) => {
-    if (!audioRef.current || !audioRef.current.duration) return;
-    
-    const newTime = (value / 100) * audioRef.current.duration;
-    audioRef.current.currentTime = newTime;
-    setCurrentTime(newTime);
+    if (useRealAudio) {
+      if (!audioRef.current || !audioRef.current.duration) return;
+      const newTime = (value / 100) * audioRef.current.duration;
+      audioRef.current.currentTime = newTime;
+      setCurrentTime(newTime);
+    } else {
+      // For mock playback
+      const newTime = (value / 100) * duration;
+      setCurrentTime(newTime);
+    }
   };
 
   const formatTime = (time: number) => {
