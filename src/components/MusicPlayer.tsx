@@ -2,6 +2,7 @@
 import React from 'react';
 import { useMusic } from '../contexts/MusicContext';
 import { Play, Pause, SkipBack, SkipForward, Volume1, Volume2, VolumeX } from 'lucide-react';
+import { Slider } from "./ui/slider";
 
 const MusicPlayer = () => {
   const { 
@@ -21,18 +22,18 @@ const MusicPlayer = () => {
 
   const progressPercentage = duration ? (currentTime / duration) * 100 : 0;
 
-  const handleProgressChange = (e: React.MouseEvent<HTMLDivElement>) => {
-    const progressBar = e.currentTarget;
-    const clickPosition = e.clientX - progressBar.getBoundingClientRect().left;
-    const progressBarWidth = progressBar.clientWidth;
-    const progressPercentage = (clickPosition / progressBarWidth) * 100;
-    
-    setProgress(progressPercentage);
+  const handleProgressChange = (value: number[]) => {
+    if (value.length > 0) {
+      const progressPercentage = value[0];
+      setProgress(progressPercentage);
+    }
   };
 
-  const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
+  const handleVolumeChange = (value: number[]) => {
+    if (value.length > 0) {
+      const newVolume = value[0] / 100;
+      setVolume(newVolume);
+    }
   };
 
   const getVolumeIcon = () => {
@@ -95,14 +96,15 @@ const MusicPlayer = () => {
         {/* Progress bar */}
         <div className="w-full flex items-center gap-2 text-xs text-gray-400">
           <span>{formatTime(currentTime)}</span>
-          <div 
-            className="progress-bar flex-1"
-            onClick={handleProgressChange}
-          >
-            <div 
-              className="progress-bar-fill" 
-              style={{ width: `${progressPercentage}%` }}
-            ></div>
+          <div className="flex-1 px-2">
+            <Slider
+              value={[progressPercentage]}
+              min={0}
+              max={100}
+              step={1}
+              onValueChange={handleProgressChange}
+              className="cursor-pointer"
+            />
           </div>
           <span>{formatTime(duration)}</span>
         </div>
@@ -114,15 +116,16 @@ const MusicPlayer = () => {
           <span className="text-gray-400">
             {getVolumeIcon()}
           </span>
-          <input 
-            type="range"
-            min="0"
-            max="1"
-            step="0.01"
-            value={volume}
-            onChange={handleVolumeChange}
-            className="volume-slider w-24 h-1 bg-gray-600 rounded-full appearance-none"
-          />
+          <div className="w-24">
+            <Slider
+              value={[volume * 100]}
+              min={0}
+              max={100}
+              step={1}
+              onValueChange={handleVolumeChange}
+              className="cursor-pointer"
+            />
+          </div>
         </div>
       </div>
     </div>

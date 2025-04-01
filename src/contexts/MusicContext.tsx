@@ -1,5 +1,7 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+
+import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { Song, songs } from '../data/songs';
+import { toast } from "sonner";
 
 interface MusicContextType {
   isPlaying: boolean;
@@ -21,7 +23,7 @@ interface MusicContextType {
 const MusicContext = createContext<MusicContextType | undefined>(undefined);
 
 export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [audioElement] = useState(new Audio());
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState<Song | null>(null);
   const [currentTime, setCurrentTime] = useState(0);
@@ -29,13 +31,31 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [volume, setVolume] = useState(0.7);
   const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>([]);
 
+  // Initialize audio element
   useEffect(() => {
-    audioElement.volume = volume;
-  }, [volume, audioElement]);
+    audioRef.current = new Audio();
+    const audio = audioRef.current;
+    
+    audio.volume = volume;
+    
+    return () => {
+      audio.pause();
+      audio.src = '';
+    };
+  }, []);
 
   useEffect(() => {
+    if (!audioRef.current) return;
+    audioRef.current.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
+    if (!audioRef.current) return;
+    
+    const audio = audioRef.current;
+    
     const updateTime = () => {
-      setCurrentTime(audioElement.currentTime);
+      setCurrentTime(audio.currentTime);
     };
 
     const handleEnded = () => {
@@ -43,22 +63,36 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     };
 
     const handleLoadedData = () => {
-      setDuration(audioElement.duration);
-      if (isPlaying) audioElement.play();
+      setDuration(audio.duration);
+      if (isPlaying) {
+        audio.play()
+          .catch(error => {
+            console.error("Error playing audio:", error);
+            toast.error("Failed to play audio. Please try again.");
+            setIsPlaying(false);
+          });
+      }
     };
 
-    audioElement.addEventListener('timeupdate', updateTime);
-    audioElement.addEventListener('ended', handleEnded);
-    audioElement.addEventListener('loadeddata', handleLoadedData);
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('ended', handleEnded);
+    audio.addEventListener('loadeddata', handleLoadedData);
+    audio.addEventListener('error', () => {
+      toast.error("Error loading audio file");
+      setIsPlaying(false);
+    });
 
     return () => {
-      audioElement.removeEventListener('timeupdate', updateTime);
-      audioElement.removeEventListener('ended', handleEnded);
-      audioElement.removeEventListener('loadeddata', handleLoadedData);
+      audio.removeEventListener('timeupdate', updateTime);
+      audio.removeEventListener('ended', handleEnded);
+      audio.removeEventListener('loadeddata', handleLoadedData);
+      audio.removeEventListener('error', () => {});
     };
-  }, [audioElement, isPlaying]);
+  }, [isPlaying]);
 
   const playSong = (song: Song) => {
+    if (!audioRef.current) return;
+    
     // Add to recently played
     setRecentlyPlayed(prev => {
       // Remove the song if it already exists
@@ -69,26 +103,38 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     // Set current song and play
     setCurrentSong(song);
-    audioElement.src = song.audio;
-    audioElement.load();
-    audioElement.play().then(() => {
-      setIsPlaying(true);
-    }).catch(error => {
-      console.error("Error playing audio:", error);
-    });
+    
+    const audio = audioRef.current;
+    audio.src = song.audio;
+    audio.load();
+    audio.play()
+      .then(() => {
+        setIsPlaying(true);
+      })
+      .catch(error => {
+        console.error("Error playing audio:", error);
+        toast.error("Failed to play audio. Please try again.");
+        setIsPlaying(false);
+      });
   };
 
   const pauseSong = () => {
-    audioElement.pause();
+    if (!audioRef.current) return;
+    audioRef.current.pause();
     setIsPlaying(false);
   };
 
   const resumeSong = () => {
-    audioElement.play().then(() => {
-      setIsPlaying(true);
-    }).catch(error => {
-      console.error("Error resuming audio:", error);
-    });
+    if (!audioRef.current || !currentSong) return;
+    
+    audioRef.current.play()
+      .then(() => {
+        setIsPlaying(true);
+      })
+      .catch(error => {
+        console.error("Error resuming audio:", error);
+        toast.error("Failed to resume audio. Please try again.");
+      });
   };
 
   const playNext = () => {
@@ -106,11 +152,11 @@ export const MusicProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   const setProgress = (value: number) => {
-    if (audioElement.duration) {
-      const newTime = (value / 100) * audioElement.duration;
-      audioElement.currentTime = newTime;
-      setCurrentTime(newTime);
-    }
+    if (!audioRef.current || !audioRef.current.duration) return;
+    
+    const newTime = (value / 100) * audioRef.current.duration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
   };
 
   const formatTime = (time: number) => {
